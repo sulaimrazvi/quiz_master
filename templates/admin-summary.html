@@ -1,0 +1,156 @@
+{% extends "admin-layout.html" %}
+{% block content %}       
+<div class="dashpanel">
+    <div class="container">
+        <div class="row">
+            <!-- Quiz Summary Bar Chart -->
+            <div class="col-md-6">
+                <div class="card" style="height: 10 rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Quiz Score Summary</h5>
+                        <p class="card-text">Summary of highest quiz scores.</p>
+                        <canvas id="quizChart"></canvas>
+                    </div>
+                </div>
+                <div class="card" style="height: 10 rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Quiz Summary</h5>
+                        <p class="card-text">Summary of number of quizes per subject.</p>
+                        <canvas id="quizbar"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- User Attempts Pie Chart -->
+            <div class="col-md-6">
+                <div class="card" style="height: 20 rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">User Quiz Attempts</h5>
+                        <p class="card-text">Number of users who attempted each quiz.</p>
+                        <canvas id="attemptChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dashpanel">
+    <div class="container">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="text-center mb-4">Users</h3>
+            <form class="d-flex" method="POST" action="/usearch/{{name}}">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"name="search_txt" id="search_txt">
+                <button class="btn btn-outline-success" type="submit" style="border-radius: 15px;">Search</button>
+              </form>
+            
+            {% if user %}
+            <div class="table-responsive">
+              <table class="table table-striped table-hover text-center">
+                <thead class="thead-dark">
+                  <tr>
+                    <th>User ID</th>
+                    <th>User Name</th>
+                    <th>User Qualification</th>
+                    <th>User Dob</th>
+                    <th>View Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for u in user %}
+                  <tr>
+                    <td>{{ u.email}}</td>
+                    <td>{{ u.full_name }}</td>
+                    <td>{{ u.qualification }}</td>
+                    <td>{{ u.dob }}</td>
+                    <td><a href="/view/{{u.id}}/{{name}}" class="btn btn-success btn-sm">View</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <p class="text-center text-muted">No Users found.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+   async function loadChartData() {
+    const response = await fetch("{{ url_for('summary_plot') }}");
+    const data = await response.json();
+
+    // Bar Chart (Highest Scores)
+    const ctx1 = document.getElementById('quizChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: data.bar_chart.labels,
+            datasets: [{
+                label: 'Highest Scores',
+                data: data.bar_chart.data,
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Pie Chart (User Quiz Attempts)
+    const ctx2 = document.getElementById('attemptChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: data.pie_chart.labels,
+            datasets: [{
+                data: data.pie_chart.data,
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+            }]
+        },
+        options: {
+        responsive: true
+    }
+    });
+    const ctx3 = document.getElementById('quizbar').getContext('2d');
+    new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: data.bar_chart_test.labels,  
+            datasets: [{
+                label: 'No of quizzes',
+                data: data.bar_chart_test.data,  
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            
+
+                }]
+            },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+}
+
+// Load data when the page loads
+loadChartData();
+
+</script>
+
+{% endblock %}

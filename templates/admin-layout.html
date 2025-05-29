@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <div class="macontainer">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light " style="padding-top: 1.5rem; padding-bottom: 1.5rem; ">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="/admin/{{name}}">HOME</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/admin/{{name}}/quiz">Quiz</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/admin/{{name}}/admin-summary">summary</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/login">Logout</a>
+                  </li>
+                  
+                </ul>
+                <form class="d-flex" method="POST" action="/search/{{name}}">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"name="search_txt" id="search_txt">
+                  <button class="btn btn-outline-success" type="submit" style="border-radius: 15px;">Search</button>
+                </form>
+                <span class="navbar-text" style="margin-left:50px">
+                    <b>WELCOME ADMIN </b>
+                  </span>
+              </div>
+            </div>
+          </nav>
+      
+
+          {%block content%}
+          {%endblock%}
+          <div class="err">{{msg}}</div>
+    </div>
+</body>
+</html>

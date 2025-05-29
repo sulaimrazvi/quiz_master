@@ -1,0 +1,124 @@
+html, body {
+    min-height: 100%;
+    margin: 0;
+    background: linear-gradient(to top, #b7a4e5, #efeef1);
+    font-family: Arial, sans-serif;
+}
+
+.mycontainer {
+    border: 2px solid #6246a8;
+    height: 100vh; /* Fixed height issue */
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.container {
+    background: linear-gradient(to top, #e1d6e6, #6f2db6);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    height: auto; /* Changed from 100% to auto to prevent overflow */
+    align-self: center;
+}
+
+.info {
+    width: 70%;
+    height: auto; /* Changed from 100% to auto */
+    background: linear-gradient(to bottom, #6045a7, #8764cb);
+    color: #fffefe;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    padding: 20px; /* Ensures content inside doesn't collapse */
+}
+
+.in_panel {
+    width: 30%;
+    height: auto; /* Changed from 100% to auto */
+    background: #f7f5f9;
+    border-radius: 50px;
+    color: #6045a7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.input_form {
+    border: 1px solid #6045a7;
+    width: 80%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: justify;
+    align-self: center;
+    background:#ded2ec;
+}
+
+.button {
+    background: linear-gradient(to right, #6246a8, #8663ca);
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background: #6045a7;
+}
+
+.nav {
+    height: 20%;
+    width: 100%;
+    background: #6246a8;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dashpanel {
+    width: auto;
+    padding-top: 10px;
+    border: 1px dashed #6045a7;
+    background: linear-gradient(to right, #6045a7, #8663ca);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.center {
+    text-align: center;
+    margin: auto;
+}
+
+.err {
+    text-align: center;
+    margin: auto;
+    color: brown;
+}
+.macontainer{
+    min-height:100%;
+}
+.card {
+    border: 1px solid #6246a8 !important;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 15px !important;
+    background: #eddef3 !important;
+    color: #11061b !important;
+}
+.card-body canvas {
+    max-width: 100% !important;
+    height: auto !important;
+    display: block;
+}

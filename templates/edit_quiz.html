@@ -1,0 +1,38 @@
+{%extends "admin-layout.html"%}
+{%block content%}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+      <div class="col-md-8">
+            <h1>Edit Quiz</h1>
+            <div class="input_form">
+              <form action="/edit_quiz/{{quiz.id}}/{{name}}" method="POST">
+                <div class="mb-3">
+                    <label for="id" class="form-label">quiz ID</label>
+                    <input type="number" class="form-control" name="id" id="id" value="{{quiz.id}}" readonly>
+                  </div>   
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" name="name" id="name" value="{{quiz.name}}">
+                  </div>
+                  <div class="mb-3">
+                    <label for="cname" class="form-label">Chapter Id</label>
+                    <input type="text" class="form-control" name="cid" id="cid" value="{{quiz.cid}}">
+                  </div>
+                  <div class="mb-3">
+                    <label for="date" class="form-label">date-of-creation</label>
+                    <input type="date" class="form-control" name="date" id="date" value="{{ quiz.date.strftime('%Y-%m-%d') }}" readonly>
+                  </div>
+                  <div class="mb-3">
+                    <label for="duration" class="form-label">quiz duration</label>
+                    <input type="time" class="form-control" name="duration" id="duration" value="{{quiz.duration}}">
+                  </div>
+                    <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <a href="/delete_quiz/{{quiz.id}}/{{name}}" type="button" class="btn btn-primary">Delete</a>
+                    <a href="/admin/{{name}}/quiz" type="button" class="btn btn-primary">Cancel</a>    
+                  </div>
+                </form>
+            </div>
+      </div>
+  </div>
+{%endblock%}              

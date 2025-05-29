@@ -1,0 +1,48 @@
+{% extends "user-layout.html" %}
+{% block content %}
+<div class="dashpanel">
+  <div class="container">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="text-center mb-4">Upcoming Quizzes</h3>
+        {% if quiz %}
+        <div class="table-responsive">
+          <table class="table table-striped table-hover text-center">
+            <thead class="thead-dark">
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Questions</th>
+                <th>Date</th>
+                <th>Duration</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for q in quiz %}
+              {% if not q.scores | selectattr("qid", "equalto", q.id) | selectattr("uid", "equalto", user_id) | list %}
+              <tr>
+                <td>{{ q.id }}</td>
+                <td>{{ q.name }}</td>
+                <td>{{q.questions|length}}</td>
+                <td>{{ q.date.strftime('%Y-%m-%d') }}</td>
+                <td>{{ q.duration }}</td>
+                <td>
+                  <a href="/view_quiz/{{q.id}}/{{name}}" class="btn btn-primary btn-sm">View</a>
+                  <a href="/start_quiz/{{q.id}}/{{name}}/0" class="btn btn-success btn-sm">Start</a>
+
+                </td>
+              </tr>
+              {%endif%}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <p class="text-center text-muted">No quizzes are present.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

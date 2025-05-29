@@ -1,0 +1,29 @@
+{%extends "admin-layout.html"%}
+{%block content%}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+      <div class="col-md-8">    
+            <h1>Add chapters</h1>
+            <div class="input_form">
+              <form action="/chapter/{{sid}}/{{name}}" method="POST">
+                <div class="mb-3">
+                    <label for="sid" class="form-label">subject ID</label>
+                    <input type="number" class="form-control" name="sid" id="sid" value="{{sid}}" readonly>
+                  </div>    
+                <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" id="name">
+                      </div>
+                      <div class="mb-3">
+                        <label for="info" class="form-label">About information</label>
+                        <input type="text" class="form-control" name="info" id="info">
+                      </div>
+                      <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">create</button>
+                    <a href="/admin/{{name}}" type="button" class="btn btn-primary">Cancel</a>
+                </div>
+                </form>
+            </div>
+      </div>
+  </div>
+{%endblock%}              

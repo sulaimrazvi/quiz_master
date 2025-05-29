@@ -1,0 +1,122 @@
+{% extends "admin-layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            {% if user %}
+                <h1>Summary of {{user.full_name}}</h1>
+                
+                    <form action="/view/{{ user.id }}/{{ name }}" method="GET">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">No of Quiz  Summary</h5>
+                                        <p class="card-text">Summary of quizes per chapter</p>
+                                        <canvas id="quizinfo"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Quiz Score Summary</h5>
+                                        <p class="card-text">Summary of highest quiz scores.</p>
+                                        <canvas id="compare"></canvas>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card" style="padding: 20px; align-content: center;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">No of Quiz Taken</h5>
+                                                <p class="card-text"><span id="quizes"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="card" style="padding: 20px; align-content: center;">
+                                            <div class="card-body">
+                                                <h5 class="card-title">Total No of Quizzes</h5>
+                                                <p class="card-text"><span id="nums"></span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                      
+                            <center><div class="mb-3">
+                                <a href="/admin/{{name}}/admin-summary" type="button" class="btn btn-primary">Cancel</a>    
+                              </div></center>
+                        </div>
+                    </form>
+                
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    async function loadChartData() {
+        const userId = "{{ user_id }}"; 
+        const response = await fetch(`/u_summary_plot/${userId}`);
+        const data = await response.json();
+        document.getElementById("quizes").innerText = data.count;
+        document.getElementById("nums").innerText = data.num;
+
+    
+    const ctx1 = document.getElementById('quizinfo').getContext('2d');
+    new Chart(ctx1, {
+    type: 'doughnut',  
+    data: {
+        labels: data.bar_chart.labels,
+        datasets: [{
+            data: data.bar_chart.data,
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+        }]
+    },
+    options: {
+        responsive: true
+    }
+        });
+
+        // Bar Chart (Comparison)
+        const ctx2 = document.getElementById('compare').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: data.cbar_chart.labels,
+                datasets: [
+                    {
+                        label: 'user Score',
+                        data: data.cbar_chart.user_scores,
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Highest Score',
+                        data: data.cbar_chart.highest_scores,
+                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    loadChartData();
+</script>
+{% endblock %}

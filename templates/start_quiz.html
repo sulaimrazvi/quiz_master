@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/styles/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>User Dashboard</title>
+</head>
+<body>
+    <div class="macontainer">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="">HOME</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Scores</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">summary</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Logout</a>
+                  </li>
+                </ul>
+                <span class="navbar-text">
+                    welcome User {{name}}
+                  </span>
+              </div>
+            </div>
+          </nav>
+<div class="container mt-4">
+  <h2>Quiz: {{ quiz.name }}</h2>
+  <p>Question {{ q_index + 1 }} of {{ total_questions }}</p>
+  <h3 id="timer"></h3>
+
+  <script>
+   let timeLeft = Math.floor({{remaining_time}});  
+ 
+   function updateTimer() {
+       if (timeLeft <= 0) {
+         alert("Time's up!  Quiz Submitted");
+           document.getElementById("quizForm").submit();
+           
+           return;  
+       } else {
+           const minutes = Math.floor(timeLeft / 60);
+           const seconds = timeLeft % 60;
+           document.getElementById("timer").innerText = `Time Left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+           timeLeft--;
+           setTimeout(updateTimer, 1000);
+       }
+   }
+ 
+   window.onload = updateTimer; 
+ </script>
+ 
+  <form id="quizForm" action="{{ url_for('start_quiz', quiz_id=quiz.id, name=name, q_index=q_index) }}" method="POST">
+   
+    <div class="mb-3">
+      <label class="form-label">Question:</label>
+      <p>{{ question.qs_stmt }}</p>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Options:</label>
+      <div>
+         <input type="radio" name="canswer" value="{{ options.option1 }}" required>
+         <label>{{ options.option1 }}</label>
+      </div>
+      <div>
+         <input type="radio" name="canswer" value="{{ options.option2 }}" required>
+         <label>{{ options.option2 }}</label>
+      </div>
+      <div>
+         <input type="radio" name="canswer" value="{{ options.option3 }}" required>
+         <label>{{ options.option3 }}</label>
+      </div>
+      <div>
+         <input type="radio" name="canswer" value="{{ options.option4 }}" required>
+         <label>{{ options.option4 }}</label>
+      </div>
+   </div>
+
+    <button type="submit" class="btn btn-primary">Submit & Next</button>
+  </form>
+</div>
+</div>
+    </body>
+    </html>

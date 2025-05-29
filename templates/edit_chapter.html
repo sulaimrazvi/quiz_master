@@ -1,0 +1,33 @@
+{%extends "admin-layout.html"%}
+{%block content%}
+<div class="container mt-4">
+  <div class="row justify-content-center">
+      <div class="col-md-8">
+        {%if chapter%}
+            <h1>Edit chapters</h1>
+            <div class="input_form">
+              <form action="/edit_chapter/{{chapter.id}}/{{name}}" method="POST">
+                <div class="mb-3">
+                    <label for="s_id" class="form-label">subject ID</label>
+                    <input type="number" class="form-control" name="s_id" id="s_id" value="{{chapter.sid}}" readonly>
+                  </div>    
+                <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="name" id="name" value="{{chapter.name}}">
+                      </div>
+                      <div class="mb-3">
+                        <label for="info" class="form-label">About information</label>
+                        <input type="text" class="form-control" name="info" id="info" value="{{chapter.info}}">
+                      </div>
+                      <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <a href="/delete_chp/{{chapter.id}}/{{name}}" type="button" class="btn btn-primary">Delete</a>
+                    <a href="/admin/{{name}}" type="button" class="btn btn-primary">Cancel</a>    
+                  </div>
+                    {%endif%}
+                  
+                </form>
+            </div>
+      </div>
+  </div>
+{%endblock%}              

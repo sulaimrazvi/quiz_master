@@ -1,0 +1,45 @@
+{%extends "admin-layout.html"%}
+{%block content%}       
+        <div class="dashpanel">
+            <div class="container">
+              {%if quiz%}
+                <div class="row"
+                style="column-gap: 10px; row-gap: 10px;">
+                  {%for q in quiz%}
+                  <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                          <h5 class="card-title"><a href="/edit_quiz/{{q.id}}/{{name}}">{{q.name}}</a></h5>
+                          <p class="card-text">{{q.cname}}</p>
+                          {%if q.questions%}
+                          <div class="table-responsive">
+                            <table class="table table-striped table-hover text-center">
+                              <thead class="thead-dark">
+                            <tr><th>ID</th><th>Title</th><th>Action</th></tr>
+                              </thead>
+                          {%for question in q.questions%}
+                           <tr><th>{{question.id}}</th><th>{{question.qs_stmt}}</th><th><a href="/edit_question/{{question.id}}/{{name}}">edit</a></th></tr>
+                          {%endfor%}
+                        </table>
+                      </div>
+                        {%else%}
+                        <p class="center">no questions present</p>
+                          
+                        {%endif%}
+                         <a href="/question/{{q.id}}/{{name}}" class="btn btn-outline-primary">Add questions</a>
+
+                        </div>
+                      </div>
+                     
+                  </div>
+                {%endfor%}  
+                </div>
+                {%else%}
+                <h3 class="center">no current quizes</h3>
+                {%endif%}
+              
+            <div class="center" ><a href="/admin/quiz/{{name}}" class="btn btn-primary" >New quiz</a></div>
+          </div>
+          </div>
+{%endblock%}            
+        
